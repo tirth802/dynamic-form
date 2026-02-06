@@ -1,0 +1,40 @@
+dynamic-form-builder/
+├── app/
+|    |
+|    ├── page.jsx                     // List all forms (READ)
+|    ├── forms/
+|    │   ├── create/
+|    │   │   └── page.jsx             // CREATE form
+|    │   ├── edit/
+|    │   │   └── [id]/
+|    │   │       └── page.jsx         // UPDATE form
+|    │   └── [id]/
+|    │       └── page.jsx             // VIEW / SUBMIT form
+|    │
+|    ├── api/
+|    │   ├── forms/
+|    │   │   ├── route.js             // POST, GET (all)
+|    │   │   └── [id]/
+|    │   │       └── route.js         // GET, PUT, DELETE
+|
+│
+├── components/
+│   ├── form-builder/
+│   │   ├── FormBuilder.jsx
+│   │   ├── FieldEditor.jsx
+│   │   ├── FieldPreview.jsx
+│   │   └── FieldTypes.js
+│   └── ui/                // shadcn (JS compatible)
+│
+├── lib/
+│   ├── db.js
+│   └── models/
+│       ├── Form.js
+│       └── Response.js
+│
+├── public/
+├── .env.local
+├── tailwind.config.js
+├── postcss.config.js
+├── next.config.js
+└── package.json
