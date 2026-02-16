@@ -57,7 +57,7 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    const { id } =  params;
+    const { id } = await params;
 
     await Form.findByIdAndDelete(id);
 

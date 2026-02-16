@@ -7,9 +7,9 @@ import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-export default function FormBuilder({onSave}) {
-  const[formName , setFormName]=useState("")
-  const [fields, setFields] = useState([]);
+export default function FormBuilder({onSave, initialTitle, initialFields=[]}) {
+  const[formName , setFormName]=useState( initialTitle||"")
+  const [fields, setFields] = useState( initialFields||[]);
 
   /* ---------------- ADD FIELD ---------------- */
 
@@ -42,34 +42,39 @@ export default function FormBuilder({onSave}) {
   const deleteField = (id) => {
     setFields(fields.filter((f) => f.id !== id));
   };
-
+  
   /* ---------------- SAVE FORM (later API) ---------------- */
   const handleSave = async() => {
     if (!formName){
       toast.error("Form Name is required")
       return
     }
-    try{
-      const res = await fetch("/api/forms",{
-          method:"POST",
-          headers:{
-            "content-Type":"application/json"
-          },
-          body:JSON.stringify({name:formName,fields})
-      })
-      const data = await res.json()
-      if(data.success){
-        onSave(data.data)
-        toast.success("Form saved successfully")
-      }
-    }catch(error){
-      toast.error("Error saving form")
-    }
+  
+   // ✅ Only pass data back
+ onSave({ name: formName, fields })
+//  onUpdate({ name: formName, fields })
+  }
+  //   try{
+  //     const res = await fetch("/api/forms",{
+  //         method:"POST",
+  //         headers:{
+  //           "content-Type":"application/json"
+  //         },
+  //         body:JSON.stringify({name:formName,fields})
+  //     })
+  //     const data = await res.json()
+  //     if(data.success){
+  //       onSave(data.data)
+  //       toast.success("Form saved successfully")
+  //     }
+  //   }catch(error){
+  //     toast.error("Error saving form")
+  //   }
     
-    console.log("FINAL FORM JSON 👇");
-    console.log(fields);
+  //   console.log("FINAL FORM JSON 👇");
+  //   console.log(fields);
     
-  };
+  // };
 
   /* ---------------- UI ---------------- */
 
@@ -78,7 +83,7 @@ export default function FormBuilder({onSave}) {
       {/*Form Name*/}
       <div>
        <Label className="mb-2 text-2xl font-medium">Form Name:</Label> 
-       <Input type="text" value={formName} onChange={(e)=>setFormName(e.target.value)} placeholder="Enter form Name"/>
+       <Input type="text" value={formName || ""} onChange={(e)=>setFormName(e.target.value)} placeholder="Enter form Name"/>
       </div>
       {/* Add Field Buttons */}
       <div className="flex flex-wrap gap-2">
@@ -106,7 +111,7 @@ export default function FormBuilder({onSave}) {
 
         {fields.map((field, index) => (
           <FieldEditor
-            key={field.id}
+            key={field.id ||field._id||index}
             field={field}
             onUpdate={(updatedField) =>
               updateField(index, updatedField)

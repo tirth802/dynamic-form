@@ -71,7 +71,7 @@ export default function FieldEditor({ field, onUpdate, onDelete }) {
       {/* Field Label */}
       <Input
         placeholder="Field label"
-        value={field.label}
+        value={field.label ||""}
         onChange={(e) => updateField("label", e.target.value)}
       />
 
@@ -113,7 +113,7 @@ export default function FieldEditor({ field, onUpdate, onDelete }) {
               {/* Option Label */}
               <Input
                 placeholder="Option label"
-                value={opt.label}
+                value={opt.label ||""}
                 onChange={(e) =>
                   updateOptionLabel(optIndex, e.target.value)
                 }

@@ -1,40 +1,37 @@
-dynamic-form-builder/
+dynamic-form/
+│
 ├── app/
-|    |
-|    ├── page.jsx                     // List all forms (READ)
-|    ├── forms/
-|    │   ├── create/
-|    │   │   └── page.jsx             // CREATE form
-|    │   ├── edit/
-|    │   │   └── [id]/
-|    │   │       └── page.jsx         // UPDATE form
-|    │   └── [id]/
-|    │       └── page.jsx             // VIEW / SUBMIT form
-|    │
-|    ├── api/
-|    │   ├── forms/
-|    │   │   ├── route.js             // POST, GET (all)
-|    │   │   └── [id]/
-|    │   │       └── route.js         // GET, PUT, DELETE
-|
+│   ├── api/
+│   │   ├── forms/
+│   │   │   ├── route.js          # POST (create), GET (list all forms)
+│   │   │   └── [id]/
+│   │   │       └── route.js      # GET (single), PUT (update), DELETE (remove)
+│   │   ├── form-responses/
+│   │   │   ├── route.js          # POST (submit response), GET (list responses by formId)
+│   │   │   └── [id]/
+│   │   │       └── route.js      # GET (single response), PUT (update response), DELETE (remove response)
+│   │
+│   ├── forms/
+│   │   ├── create/
+│   │   │   └── page.jsx          # CreateFormPage (uses FormBuilder, POST)
+│   │   ├── [formId]/
+│   │   │   ├── page.jsx          # FormPreviewPage (view form + responses)
+│   │   │   ├── responses/
+│   │   │   │   └── page.jsx      # ResponsesPage (list responses for a form)
+│   │   │   └── edit/
+│   │   │       └── page.jsx      # EditFormPage (uses FormBuilder, PUT)
 │
 ├── components/
 │   ├── form-builder/
-│   │   ├── FormBuilder.jsx
-│   │   ├── FieldEditor.jsx
-│   │   ├── FieldPreview.jsx
-│   │   └── FieldTypes.js
-│   └── ui/                // shadcn (JS compatible)
+│   │   ├── FormBuilder.jsx       # Pure UI for building forms
+│   │   └── FieldEditor.jsx       # Handles individual field editing
+│   ├── form-preview/
+│   │   └── FormPreview.jsx       # Displays a form with its fields
+│   └── ui/                       # Shared UI components (Button, Input, Label, etc.)
 │
-├── lib/
-│   ├── db.js
-│   └── models/
-│       ├── Form.js
-│       └── Response.js
+├── models/
+│   ├── Form.js                   # Mongoose schema for forms
+│   └── Response.js               # Mongoose schema for responses
 │
-├── public/
-├── .env.local
-├── tailwind.config.js
-├── postcss.config.js
-├── next.config.js
-└── package.json
+└── lib/
+    └── db.js                     # Database connection helper

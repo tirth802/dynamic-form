@@ -2,25 +2,81 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import Link from "next/link";
+
+/* ✅ MOVE THIS OUTSIDE COMPONENT */
+function buildFieldMap(fields, map = {}) {
+  fields.forEach((field) => {
+    const key = field._id || field.id;
+    map[key] = field.label;
+
+    if (field.options) {
+      field.options.forEach((opt) => {
+        if (opt.children) {
+          buildFieldMap(opt.children, map);
+        }
+      });
+    }
+  });
+
+  return map;
+}
 
 export default function ResponsesPage() {
+
   const { formId } = useParams();
+
   const [responses, setResponses] = useState([]);
+  const [fieldMap, setFieldMap] = useState({});
   const [loading, setLoading] = useState(true);
+  const[confirmDeleteId,setConfirmDeleteId]=useState(null)
+
+  const handleDelete = async(id)=>{
+       try {
+              const res= await fetch(`/api/form-responses/${id}`,{
+                method:"DELETE"
+              })
+              const data= await res.json()
+              if(data.success){
+                toast.success("Response deleted successfully")
+                setResponses(prev=>prev.filter((r)=>r._id!==id))
+              }else{
+                toast.error("Failed to delete response")
+              }
+            } catch (error) {
+              console.log(error)
+              toast.error("Delete failed")
+            }finally{
+              setConfirmDeleteId(null)
+            }
+  }
 
   useEffect(() => {
     if (!formId) return;
 
-    fetch(`/api/form-responses?formId=${formId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setResponses(data.data);
+    Promise.all([
+      fetch(`/api/form-responses?formId=${formId}`).then((r) => r.json()),
+      fetch(`/api/forms/${formId}`).then((r) => r.json()),
+    ])
+      .then(([responsesRes, formRes]) => {
+        if (responsesRes.success) {
+          setResponses(responsesRes.data);
+        }else{
+          toast.error("Error fetching responses")
+        } 
+
+        if (formRes.success) {
+          const map = buildFieldMap(formRes.data.fields);
+          setFieldMap(map);
+        }else{
+          toast.error("Error fetching form details")
         }
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
-  }, [formId]);
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, [formId]); // ✅ dependency is now PERFECT
 
   if (loading) {
     return <p className="p-6">Loading responses...</p>;
@@ -34,19 +90,67 @@ export default function ResponsesPage() {
         <p className="text-gray-500">No responses yet.</p>
       )}
 
-      {responses.map((res, index) => (
+      {responses.map((response, index) => (
         <div
-          key={res._id}
-          className="border rounded p-4 space-y-2"
+          key={response._id}
+          className="border rounded-lg p-4 space-y-3"
         >
-          <h3 className="font-semibold">
-            Response #{index + 1}
-          </h3>
+          <div className="flex justify-between">
+            <h3 className="font-semibold">
+              Response #{index + 1}
+            </h3>
+            <span className="text-xs text-gray-500">
+              {new Date(response.createdAt).toLocaleString()}
+            </span>
+          </div>
 
-          <pre className="bg-gray-100 p-3 rounded text-sm">
-            {JSON.stringify(res.answers, null, 2)}
-          </pre>
+          <div className="space-y-2">
+            {Object.entries(response.answers).map(
+              ([fieldId, value]) => (
+                <div
+                  key={fieldId}
+                  className="flex justify-between border-b pb-1 text-sm"
+                >
+                  <span className="text-gray-600">
+                    {fieldMap[fieldId] || fieldId}
+                  </span>
+
+                  <span className="font-medium">
+                    {Array.isArray(value)
+                      ? value.join(", ")
+                      : value}
+                  </span>
+                </div>
+              )
+            )}
+          </div>
+          <Link href={`/forms/${formId}/responses/${response._id}/edit`}> 
+          <Button className="ml-2">Edit</Button>
+          </Link>
+          <Button variant="destructive" className="ml-2"
+          onClick={()=>{
+           setConfirmDeleteId(response._id) 
+          }}>Delete</Button>
+
+           {confirmDeleteId === response._id && (
+        <div className="mt-3 p-3 border rounded bg-red-50 space-y-2">
+          <p className="text-sm text-red-700">
+            Are you sure you want to delete this response? This action cannot be undone.
+          </p>
+          <div className="flex gap-2">
+            <Button size="sm" variant="destructive" 
+            onClick={()=>handleDelete(response._id)}>
+              Yes, Delete
+            </Button>
+            <Button size="sm" onClick={() => setConfirmDeleteId(null)}>
+              Cancel
+            </Button>
+          </div>
         </div>
+      )}
+
+        </div>
+        
       ))}
     </div>
   );
