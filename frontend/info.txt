@@ -1,0 +1,55 @@
+dynamic-form/
+│
+├── app/
+│   ├── api/
+│   │   ├── forms/
+│   │   │   ├── route.js          # POST (create), GET (list all forms)
+│   │   │   └── [id]/
+│   │   │       └── route.js      # GET (single), PUT (update), DELETE (remove)
+│   │   ├── form-responses/
+│   │   │   ├── route.js          # POST (submit response), GET (list responses by formId)
+│   │   │   └── [id]/
+│   │   │       └── route.js      # GET (single response), PUT (update response), DELETE (remove response)
+│   │
+│   ├── forms/
+│   │   ├── create/
+│   │   │   └── page.jsx          # CreateFormPage (uses FormBuilder, POST)
+│   │   ├── [formId]/
+│   │   │   ├── page.jsx          # FormPreviewPage (view form + responses)
+│   │   │   ├── responses/
+│   │   │   │   └── page.jsx      # ResponsesPage (list responses for a form)
+│   │   │   └── edit/
+│   │   │       └── page.jsx      # EditFormPage (uses FormBuilder, PUT)
+│
+├── components/
+│   ├── form-builder/
+│   │   ├── FormBuilder.jsx       # Pure UI for building forms
+│   │   └── FieldEditor.jsx       # Handles individual field editing
+│   ├── form-preview/
+│   │   └── FormPreview.jsx       # Displays a form with its fields
+│   └── ui/                       # Shared UI components (Button, Input, Label, etc.)
+│
+├── models/
+│   ├── Form.js                   # Mongoose schema for forms
+│   └── Response.js               # Mongoose schema for responses
+│
+└── lib/
+    └── db.js                     # Database connection helper
+
+ backend/
+├── server.js              # Entry point
+├── routes/                # API routes (only routing logic)
+│   ├── formRoutes.js
+│   └── responseRoutes.js
+├── controllers/           # Controllers (business logic)
+│   ├── formController.js
+│   └── responseController.js
+├── services/              # Optional: reusable service logic
+│   └── notificationService.js
+├── models/                # Mongoose schemas
+│   ├── Form.js
+│   └── Response.js
+├── lib/                   # Helpers
+│   ├── db.js              # DB connection
+│   └── cron.js            # node-cron jobs
+└── package.json
