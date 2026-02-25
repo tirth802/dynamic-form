@@ -2,6 +2,7 @@
 
 import FormPreview from "@/components/form-preview/FormPreview"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -90,7 +91,9 @@ export default function EditResponsePage(){
       mode="edit"/>
 
       
-
+    <Link href={`/forms/${formId}/responses`}>
+      <Button>Back to Form</Button>
+    </Link>
       {/* <Button className="w-full" onClick={handleUpdate}>
         Save Changes
       </Button> */}

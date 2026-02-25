@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import FormBuilder from "@/components/form-builder/FormBuilder";
 import { toast } from "sonner";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function EditFormPage() {
   const { formId } = useParams();
@@ -63,6 +65,7 @@ export default function EditFormPage() {
         initialTitle={title}
         onSave={handleUpdate}
       />
+      {/* <Link href="/"><Button className="mt-2">Home</Button></Link> */}
     </div>
   );
 }

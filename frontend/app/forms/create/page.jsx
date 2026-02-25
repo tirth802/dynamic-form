@@ -4,6 +4,8 @@ import { useState } from "react";
 import FormBuilder from "@/components/form-builder/FormBuilder";
 import FormPreview from "@/components/form-preview/FormPreview";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function CreateFormPage() {
   const [schema, setSchema] = useState([]);
@@ -51,7 +53,7 @@ export default function CreateFormPage() {
     <div className="grid grid-cols-2 gap-6 p-6">
       <FormBuilder onSave={handleSave}  />
       <FormPreview fields={schema.fields ||[]} formId={schema._id} />
-      
+      <Link href="/"><Button>Home</Button></Link>
     </div>
   );
 }

@@ -156,7 +156,7 @@ export default function ResponsesPage() {
         
       ))}
       <Link href={`/`}>
-          <Button  variant="outline" className="ml-2">
+          <Button   className="ml-2">
             
             Back </Button>
           </Link>
