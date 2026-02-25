@@ -9,7 +9,7 @@ export default function HomePage() {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/forms")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms`)
       .then((res) => res.json())
       .then((data) => setForms(data.data || []));
   }, []);
@@ -17,7 +17,7 @@ export default function HomePage() {
   async function deleteForm(id) {
     if (!confirm("Delete this form?")) return;
 
-    const res = await fetch(`http://localhost:5000/api/forms/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${id}`, {
       method: "DELETE",
     });
 

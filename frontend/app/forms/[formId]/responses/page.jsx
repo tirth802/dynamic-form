@@ -35,7 +35,7 @@ export default function ResponsesPage() {
 
   const handleDelete = async(id)=>{
        try {
-              const res= await fetch(`http://localhost:5000/api/form-responses/${id}`,{
+              const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/form-responses/${id}`,{
                 method:"DELETE"
               })
               const data= await res.json()
@@ -57,8 +57,8 @@ export default function ResponsesPage() {
     if (!formId) return;
 
     Promise.all([
-      fetch(`http://localhost:5000/api/form-responses/form/${formId}`).then((r) => r.json()),
-      fetch(`http://localhost:5000/api/forms/${formId}`).then((r) => r.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/form-responses/form/${formId}`).then((r) => r.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${formId}`).then((r) => r.json()),
     ])
       .then(([responsesRes, formRes]) => {
         if (responsesRes.success) {

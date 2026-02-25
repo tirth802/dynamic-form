@@ -15,7 +15,7 @@ export default function FormPreviewPage() {
   useEffect(() => {
     if (!formId) return;
 
-    fetch(`http://localhost:5000/api/forms/${formId}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${formId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

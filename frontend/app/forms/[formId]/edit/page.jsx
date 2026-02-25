@@ -17,7 +17,7 @@ export default function EditFormPage() {
   useEffect(() => {
     if (!formId) return;
 
-    fetch(`http://localhost:5000/api/forms/${formId}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${formId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -34,7 +34,7 @@ export default function EditFormPage() {
   // 🔹 Update form
   const handleUpdate = async (updatedFields) => {
   try {
-   const res = await fetch(`http://localhost:5000/api/forms/${formId}`, {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${formId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedFields),

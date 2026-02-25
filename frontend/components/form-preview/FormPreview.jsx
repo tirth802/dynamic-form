@@ -174,8 +174,8 @@ export default function FormPreview({
     try {
       const url =
         mode === "edit"
-          ? `/api/form-responses/${responseId}`
-          : "/api/form-responses";
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/form-responses/${responseId}`
+          : `${process.env.NEXT_PUBLIC_API_URL}/api/form-responses`;
       const res = await fetch(url, {
         method: mode === "edit" ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
@@ -192,23 +192,7 @@ export default function FormPreview({
             ? "Response updated successfully"
             : "Form submitted successfully",
         );
-        if("Notification"in window){
-          if(Notification.permission==="granted"){
-            new Notification("Form Created Successfully!",{
-              body:"Your form has been submitted.",
-              icon:"/success-icon.png"
-          })
-        }else if(Notification.permission!=="denied"){
-          Notification .requestPermission().then(permission=>{
-            if(permission==="granted"){
-              new Notification("Form Created Successfully!",{
-                body:"Your form has been submitted.",
-                icon:"/success-icon.png"
-              })
-            } 
-          })
-        }
-      }
+
         if (mode === "create") setAnswers({});
       } else {
         toast.error(data.message || "Error submitting form");

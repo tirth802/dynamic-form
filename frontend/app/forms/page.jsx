@@ -8,7 +8,7 @@ export default function FormsPage() {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/forms")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms`)
       .then((res) => res.json())
       .then((data) => setForms(data.data || []));
   }, []);

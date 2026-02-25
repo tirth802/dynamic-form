@@ -20,7 +20,7 @@ export default function EditResponsePage(){
     useEffect(()=>{
         if(!formId) return
 
-        fetch(`http://localhost:5000/api/forms/${formId}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms/${formId}`)
         .then((res)=>res.json())
         .then((data)=>{
             if(data.success){
@@ -41,7 +41,7 @@ export default function EditResponsePage(){
     useEffect(()=>{
         if(!responseId) return
 
-        fetch(`http://localhost:5000/api/form-responses/${responseId}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/form-responses/${responseId}`)
         .then((res)=>res.json())
         .then((data)=>{
             if(data.success){

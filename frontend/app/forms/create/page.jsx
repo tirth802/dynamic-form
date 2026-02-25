@@ -11,7 +11,7 @@ export default function CreateFormPage() {
      const handleSave = async(newForm) => {
    
     try{
-      const res = await fetch("http://localhost:5000/api/forms",{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forms`,{
           method:"POST",
           headers:{
             "content-Type":"application/json"
