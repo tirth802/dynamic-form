@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const connectDB = require('./lib/db.js');
 const formRoutes = require('./routes/formRoutes.js');
-const env = require('dotenv').config();
-const cors = require('cors');
 const responseRoutes = require('./routes/form-responseRoutes.js');
+const uploadRoutes = require('./routes/uploadRoutes.js');
+const cors = require('cors');
 const crons = require('./lib/cron.js');
 
 const app = express();
@@ -15,9 +16,11 @@ app.use(cors());
 // Form Routes
 app.use('/api/forms', formRoutes);
 
-
-//Response Routes
+// Response Routes
 app.use('/api/form-responses', responseRoutes);
+
+// Upload Routes (Cloudinary)
+app.use('/api/uploads', uploadRoutes);
 
 // Start the server
 const startServer = async () => {

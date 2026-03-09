@@ -119,8 +119,26 @@ export default function ResponsesPage() {
 
                   <span className="font-medium">
                     {Array.isArray(value)
-                      ? value.join(", ")
-                      : value}
+                      ? value.map((v) => {
+                          if (v && typeof v === 'object' && v.url) {
+                            return (
+                              <a key={v.publicId} href={v.url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline block">
+                                📎 {v.publicId.split('/').pop() || 'File'}
+                              </a>
+                            );
+                          }
+                          return <span key={v}>{String(v)}</span>;
+                        }).reduce((acc, curr, idx, arr) => {
+                          if (idx === arr.length - 1) return [...acc, curr];
+                          return [...acc, curr, ', '];
+                        }, [])
+                      : value && typeof value === 'object' && value.url
+                      ? (
+                          <a href={value.url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+                            📎 {value.publicId.split('/').pop() || 'File'}
+                          </a>
+                        )
+                      : String(value)}
                   </span>
                 </div>
               )
@@ -156,7 +174,7 @@ export default function ResponsesPage() {
         
       ))}
       <Link href={`/`}>
-          <Button   className="ml-2">
+          <Button  className="ml-2">
             
             Back </Button>
           </Link>

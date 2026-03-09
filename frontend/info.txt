@@ -1,15 +1,6 @@
 dynamic-form/
 │
 ├── app/
-│   ├── api/
-│   │   ├── forms/
-│   │   │   ├── route.js          # POST (create), GET (list all forms)
-│   │   │   └── [id]/
-│   │   │       └── route.js      # GET (single), PUT (update), DELETE (remove)
-│   │   ├── form-responses/
-│   │   │   ├── route.js          # POST (submit response), GET (list responses by formId)
-│   │   │   └── [id]/
-│   │   │       └── route.js      # GET (single response), PUT (update response), DELETE (remove response)
 │   │
 │   ├── forms/
 │   │   ├── create/
@@ -28,13 +19,10 @@ dynamic-form/
 │   ├── form-preview/
 │   │   └── FormPreview.jsx       # Displays a form with its fields
 │   └── ui/                       # Shared UI components (Button, Input, Label, etc.)
-│
-├── models/
-│   ├── Form.js                   # Mongoose schema for forms
-│   └── Response.js               # Mongoose schema for responses
-│
-└── lib/
-    └── db.js                     # Database connection helper
+
+
+
+
 
  backend/
 ├── server.js              # Entry point

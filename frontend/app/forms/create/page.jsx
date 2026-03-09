@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function CreateFormPage() {
-  const [schema, setSchema] = useState([]);
+  const [schema, setSchema] = useState({});
   //  console.log("Dataa",schema._id)
      const handleSave = async(newForm) => {
    
@@ -52,7 +52,11 @@ export default function CreateFormPage() {
   return (
     <div className="grid grid-cols-2 gap-6 p-6">
       <FormBuilder onSave={handleSave}  />
-      <FormPreview fields={schema.fields ||[]} formId={schema._id} />
+      <FormPreview 
+        fields={schema.fields || []} 
+        formId={schema._id} 
+        formData={schema}
+      />
       <Link href="/"><Button>Home</Button></Link>
     </div>
   );

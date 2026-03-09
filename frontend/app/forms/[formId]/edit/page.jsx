@@ -13,6 +13,7 @@ export default function EditFormPage() {
   
   const[title,setTitle]=useState()
   const [fields, setFields] = useState([]);
+  const [initialData, setInitialData] = useState({});
   const [loading, setLoading] = useState(true);
 
   // 🔹 Fetch existing form
@@ -24,7 +25,8 @@ export default function EditFormPage() {
       .then((data) => {
         if (data.success) {
           setFields(data.data.fields);
-          setTitle(data.data.name)
+          setTitle(data.data.name);
+          setInitialData(data.data);
         }else{
           toast.error("Form not found")
         }
@@ -60,9 +62,9 @@ export default function EditFormPage() {
       <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
 
       <FormBuilder
-      
         initialFields={fields}
         initialTitle={title}
+        initialData={initialData}
         onSave={handleUpdate}
       />
       {/* <Link href="/"><Button className="mt-2">Home</Button></Link> */}

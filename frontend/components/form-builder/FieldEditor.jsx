@@ -84,12 +84,63 @@ export default function FieldEditor({ field, onUpdate, onDelete }) {
           <SelectValue placeholder="Select field type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="text">Text</SelectItem>
-          <SelectItem value="radio">Radio</SelectItem>
+          <SelectItem value="text">Text (Single Line)</SelectItem>
+          <SelectItem value="textarea">Text Area (Multi Line)</SelectItem>
+          <SelectItem value="radio">Radio Button</SelectItem>
           <SelectItem value="checkbox">Checkbox</SelectItem>
           <SelectItem value="select">Dropdown</SelectItem>
+          <SelectItem value="date">Date</SelectItem>
+          <SelectItem value="file">File Upload</SelectItem>
+          <SelectItem value="image">Image Upload</SelectItem>
+          <SelectItem value="pdf">PDF Upload</SelectItem>
+          <SelectItem value="video">Video Upload</SelectItem>
         </SelectContent>
       </Select>
+
+      {/* Placeholder Field */}
+      {["text", "textarea", "email", "number"].includes(field.type) && (
+        <Input
+          placeholder="Field placeholder"
+          value={field.placeholder || ""}
+          onChange={(e) => updateField("placeholder", e.target.value)}
+        />
+      )}
+
+      {/* Default Value Field */}
+      {["text", "textarea"].includes(field.type) && (
+        <Input
+          placeholder="Default value"
+          value={field.defaultValue || ""}
+          onChange={(e) => updateField("defaultValue", e.target.value)}
+        />
+      )}
+
+      {/* Validation Rules */}
+      {["text"].includes(field.type) && (
+        <div className="border rounded p-2 space-y-2">
+          <p className="text-xs font-medium">Validation (optional):</p>
+          <Input
+            placeholder="Min length"
+            type="number"
+            value={field.validation?.minLength || ""}
+            onChange={(e) => updateField("validation", {
+              ...field.validation,
+              minLength: e.target.value ? parseInt(e.target.value) : undefined
+            })}
+            className="text-xs"
+          />
+          <Input
+            placeholder="Max length"
+            type="number"
+            value={field.validation?.maxLength || ""}
+            onChange={(e) => updateField("validation", {
+              ...field.validation,
+              maxLength: e.target.value ? parseInt(e.target.value) : undefined
+            })}
+            className="text-xs"
+          />
+        </div>
+      )}
 
       {/* Required */}
       <div className="flex items-center gap-2">
